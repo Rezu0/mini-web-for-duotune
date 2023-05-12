@@ -1,0 +1,40 @@
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+.button-container .btn {
+    flex: 0 0 auto;
+    margin: 5px;
+}
+
+code {
+    font-family: monospace; /* Menggunakan font monospace untuk menjaga konsistensi lebar karakter */
+    background-color: #f1f1f1; /* Memberikan latar belakang dengan warna abu-abu (#f1f1f1) */
+    color: #333; /* Mengatur warna teks (#333) */
+    padding: 4px; /* Menambahkan padding di sekitar kode */
+    border-radius: 4px; /* Memberikan border-radius untuk sudut yang lebih lembut */
+    overflow-x: auto;
+}
+
+.card{
+    position: relative;
+}
+
+.card .top-left-span{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    padding: 5px;
+    background-color: #DC3545;
+    border-radius: 5px;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+#copy:hover{
+    background-color: #a7002a;
+}

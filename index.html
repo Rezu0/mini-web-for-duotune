@@ -29,7 +29,6 @@
         </div>
     </div>
   </div>
-
   <script>
     const nameFile = [
         {
@@ -114,7 +113,8 @@
         const elParent = document.getElementById('row-img')
         elParent.innerHTML = ''
 
-        fetch(`http://localhost:5500/count/${name.name}`)
+//         YOUR_LINK itu sesuaikan dengan port yang jalan di express js
+        fetch(`YOUR_LINK/${name.name}`)
             .then(resp => resp.json())
             .then(data => {
                 for (let index = 1; index < data.count; index++) {
@@ -125,12 +125,15 @@
                     if(index <= 9){
                         cardElement.innerHTML = `
                         <div class="card shadow my-2" style="display: auto">
-                            <span class="top-left-span" id="copy" data-bs="<img src='../${name.name}/${name.alias}00${index}.svg' alt=''>">Copy</span>
+                            <span class="top-left-span" id="copy" data-bs="<img src='../${name.name}/${name.alias}0${index}.svg' alt=''>">Copy</span>
                             <img src="duotune/${name.name}/${name.alias}00${index}.svg" alt="" class="card-img-top img-thumbnail bg-secondary bg-opacity-25 text-white">
                             <div class="card-body text-center">
-                                <code>
+                                <code id="code" style="display: inline">
                                     &lt;img src="../${name.name}/${name.alias}00${index}.svg" alt=""&gt;
                                 </code>
+
+                                <span id="alert"></span>
+                                <input type="text" class="form-control mt-2" id="textCopy" style="display: none;">
                             </div>
                         </div>`
                     }else{
@@ -139,9 +142,12 @@
                             <span class="top-left-span" id="copy" data-bs="<img src='../${name.name}/${name.alias}0${index}.svg' alt=''>">Copy</span>
                             <img src="duotune/${name.name}/${name.alias}0${index}.svg" alt="" class="card-img-top img-thumbnail bg-secondary bg-opacity-25 text-white">
                             <div class="card-body text-center">
-                                <code>
+                                <code id="code" style="display: inline">
                                     &lt;img src="../${name.name}/${name.alias}0${index}.svg" alt=""&gt;
                                 </code>
+
+                                <span id="alert"></span>
+                                <input type="text" class="form-control mt-2" id="textCopy" style="display: none;">
                             </div>
                         </div>`
                     }
@@ -165,23 +171,34 @@
         const refreshInterval = setInterval(function(){
             const element = document.getElementById('copy')
             const duplicateID = document.querySelectorAll('[id="copy"]')
+
             if (element) {
+                const textHidden = document.querySelectorAll('[id="textCopy"]')
+                const codeVisible = document.querySelectorAll('[id="code"]')
+                const alertHidden = document.querySelectorAll('[id="alert"]')
+
                 duplicateID.forEach((el, index) => {
                     el.addEventListener("click", () => {
-                        const text = el.getAttribute('data-bs')
-                        navigator.clipboard.writeText(text)
-                            .then(() => {
-                                el.textContent = 'Copied'
-                                el.style.backgroundColor = '#198754'
+                        const text = el.getAttribute('data-bs');
+                        
+                        textHidden[index].value = text
+                        textHidden[index].style.display = 'block'
+                        codeVisible[index].style.display = 'none'
+                        alertHidden[index].innerHTML += 'Copy Successfuly'
+                        textHidden[index].select()
+                        document.execCommand('copy')
 
-                                setTimeout(() => {
-                                    el.textContent = 'Copy'
-                                    el.style.backgroundColor = '#DC3545'
-                                }, 2000);
-                            })
-                            .catch((err) => {
-                                console.error(err);
-                            })
+                        el.textContent = 'Copied'
+                        el.style.backgroundColor = '#198754'
+
+                        setTimeout(() => {
+                            el.textContent = 'Copy'
+                            el.style.backgroundColor = '#DC3545'
+                            codeVisible[index].style.display = 'inline'
+                            textHidden[index].style.display = 'none'
+                            alertHidden[index].innerHTML = ''
+                        }, 2000);
+                        
                     })
                 })
             }

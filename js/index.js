@@ -8,6 +8,7 @@ app.use(cors())
 
 app.get('/count/:dir', (req, res) => {
     const dir = req.params.dir
+    //sesuaikan dengan direktori kalian masing masing
     const mainPath = `../duotune/${dir}`
 
     const countFiles = (dirPath) => {
@@ -34,5 +35,5 @@ app.get('/count/:dir', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server berjalan di http://localhost:${port}`);
+    console.log(`Server berjalan di ${port}`);
 })
